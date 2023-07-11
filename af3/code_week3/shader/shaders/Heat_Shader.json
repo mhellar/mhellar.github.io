@@ -1,0 +1,32 @@
+{
+  "id": 4183,
+  "name": "Heat Shader",
+  "fragment": "precision highp float;\nprecision highp int;\nuniform mat4 modelMatrix;\nuniform vec3 vLightPosition;\nuniform mat4 modelViewMatrix;\nuniform mat4 projectionMatrix;\nuniform mat4 viewMatrix;\nuniform mat3 normalMatrix;\nuniform float scale;\nuniform float power;\nvarying vec3 vNormal;\nvarying vec3 vPosition;\nvec3 toneToHeatColorMap(in float tone) \n                                                        {\n                                                            if (tone > 0.95) return vec3(0.0, 0.0, 1.0);\n else if (tone > 0.80) return vec3(0.0, 0.2 + tone, 0.0);\n else if (tone > 0.25) return vec3(1.0, tone, 0.0);\n else if (tone > 0.1) return vec3(1.0 - tone, 0.0, 0.0);\n                                                             return vec3(0.4, 0.05, 0.2);\n                                                        }\nvec4 Heat_Shader1580910678675_282_main(void) \n                                                        {\n                                                            vec4 Heat_Shader1580910678675_282_gl_FragColor = vec4(0.0);\n                                                            vec3 fresnel = vec3(1.0, 1.0, 1.0);\n                                                            vec3 pos2World = (modelViewMatrix * vec4(vPosition, 1.0)).xyz;\n                                                            vec3 norm2World = normalize(modelViewMatrix * vec4(vNormal, 1.0)).xyz;\n                                                            vec3 cameraPos2World = (modelViewMatrix * vec4(viewMatrix[0][3], viewMatrix[1][3], viewMatrix[2][3], 1.0)).xyz;\n                                                            vec3 lightVectorW = normalize(vec3(vec4(vLightPosition, 1.0) * modelMatrix) - vPosition);\n                                                            float ndl = max(0.0, dot(vNormal, lightVectorW));\n                                                            vec3 I = normalize(pos2World - cameraPos2World);\n                                                            float R = scale * pow(1.0 + dot(I, norm2World), power);\n                                                            vec3 color = vec3(0);\n                                                            color = clamp(mix(color, fresnel, R), 0.0, 1.0);\n                                                            Heat_Shader1580910678675_282_gl_FragColor = vec4(toneToHeatColorMap(color.r), 1.0);\n                                                            return Heat_Shader1580910678675_282_gl_FragColor *= 1.0;\n                                                        }\nvoid main() \n                                                        {\n                                                            gl_FragColor = Heat_Shader1580910678675_282_main();                                                        }\n",
+  "vertex": "precision highp float;\nprecision highp int;\nuniform mat4 modelMatrix;\nuniform mat4 modelViewMatrix;\nuniform mat4 projectionMatrix;\nuniform mat4 viewMatrix;\nuniform mat3 normalMatrix;\nattribute vec3 position;\nattribute vec3 normal;\nattribute vec2 uv;\nattribute vec2 uv2;\nvarying vec3 vNormal;\nvarying vec3 vPosition;\nvec4 Heat_Shader1580910678675_282_main() \n                                                        {\n                                                            vec4 Heat_Shader1580910678675_282_gl_Position = vec4(0.0);\n                                                            vNormal = normal;\n                                                            vPosition = position;\n                                                            Heat_Shader1580910678675_282_gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n                                                            return Heat_Shader1580910678675_282_gl_Position *= 1.0;\n                                                        }\nvoid main() \n                                                        {\n                                                            gl_Position = Heat_Shader1580910678675_282_main();                                                        }\n",
+  "uniforms": {
+    "vLightPosition": {
+      "value": {
+        "x": -1.604205103815141,
+        "y": -0.5027274061086557,
+        "z": 1.083416420422321
+      },
+      "type": "v3",
+      "glslType": "vec3"
+    },
+    "scale": {
+      "value": "1.05",
+      "type": "f",
+      "glslType": "float"
+    },
+    "power": {
+      "value": "1.0",
+      "type": "f",
+      "glslType": "float"
+    }
+  },
+  "url": "http://shaderfrog.com/app/view/4183",
+  "user": {
+    "username": "mav",
+    "url": "http://shaderfrog.com/app/profile/andrewray"
+  }
+}

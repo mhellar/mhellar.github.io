@@ -1,0 +1,108 @@
+<!-- include A-Frame obviously -->
+<script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+<!-- A-Frame extras for GLTF animations -->
+<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.0.1/dist/aframe-extras.min.js"></script>
+<script src="https://rawgit.com/msj121/aframeFrogShaders/master/aframe-shader-frog.js"></script>
+<script src="js/aframe-environment-component.js"></script>
+
+
+<script>
+    // register your component here with a name
+    AFRAME.registerComponent('hello-world', {
+        schema: {
+            amount: {
+                type: 'number',
+                default: 10
+            },
+            color: {
+                type: 'color',
+                default: 'red'
+            },
+            duration: {
+                type: 'number',
+                default: 10000
+            },
+            randScaleMax: {
+                type: 'number',
+                default: 3
+            },
+        },
+        //custom function
+        getRandomInt: function (min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+        },
+        getRandomColor: function () {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        },
+        init: function () {
+            let items = 32
+            for (let i = 1; i < this.data.amount; i++) {
+                let x = 2 * Math.sin(2 * Math.PI * i / items);
+                let y = 2 * Math.cos(2 * Math.PI * i / items);
+                let z = 2 * Math.sin(2 * Math.PI * i / items);
+                var box = document.createElement('a-torus-knot');
+                box.setAttribute('shader-frog', "src:url(https://raw.githubusercontent.com/mhellar/aframestuff/master/basic4/shaders/Fluid_Circles.json)")
+                box.setAttribute('position', x + ' ' + y + ' ' + z);
+                box.setAttribute('arc', this.getRandomInt(1, this.data.randScaleMax));
+                box.setAttribute('p', this.getRandomInt(1, this.data.randScaleMax));
+                box.setAttribute('q', this.getRandomInt(1, this.data.randScaleMax));
+                box.setAttribute('radius-tubular', 0.3);
+
+                box.setAttribute('scale', '0.7 0.7 0.7');
+                box.setAttribute('rotation', i + ' ' + i + ' ' + i);
+                box.setAttribute('radius', i);
+                box.setAttribute('metalness', 1);
+                box.setAttribute('animation__rotate', {
+                    property: 'rotation',
+                    to: "'" + this.getRandomInt(1, 720) + " " + this.getRandomInt(1, 720) + " " + this.getRandomInt(1, 720) + "'",
+                    loop: 'true',
+                    easing: 'easeInSine',
+                    dur: 50000
+                });
+                // box.setAttribute('animation__scale', {
+                //     property: 'position',
+                //     to: "'" + this.getRandomInt(1, 30) + " " + this.getRandomInt(1, 30) + " " + this.getRandomInt(1, 30) + "'",
+                //     loop: 'true',
+                //     easing: 'easeInOutElastic',
+                //     dur: 10000
+                // });
+                // box.setAttribute('animation__color', {
+                //     property: 'material.color',
+                //     dir: 'alternate',
+                //     easing: 'easeInOutElastic',
+                //     to: '#FFF',
+                //     loop: 'true',
+                //     dur: 100000
+                // });
+                this.el.appendChild(box);
+            }
+        }
+    });
+</script>
+
+
+<body style='margin : 0px; overflow: hidden;'>
+    <a-scene environment="preset:starry">
+            <a-assets>
+                    <a-asset-item id="frame-obj" src="models/frame/8x8x8.obj"></a-asset-item>
+                    <a-asset-item id="frame-mtl" src="models/frame/8x8x8.mtl"></a-asset-item>
+                  </a-assets>
+
+        <!-- Aframe asset system. preload assets here -->
+        <!-- create your content here. just a box for now -->
+        <a-entity hello-world="amount:3;randScaleMax:10" position="0 2 -4">
+        </a-entity>
+        <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4" scale="7 7 7"></a-plane>
+
+    </a-scene>
+</body>
+
+
+<html>

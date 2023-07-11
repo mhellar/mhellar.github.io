@@ -1,0 +1,32 @@
+<!-- include A-Frame obviously -->
+<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+<!-- A-Frame extras for GLTF animations -->
+<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.0.1/dist/aframe-extras.min.js"></script>
+<script src="https://rawgit.com/msj121/aframeFrogShaders/master/aframe-shader-frog.js"></script>
+<script src="js/aframe-environment-component.js"></script>
+
+
+
+<body style='margin : 0px; overflow: hidden;'>
+    <a-scene environment="preset:starry">
+        <!-- Aframe asset system. preload assets here -->
+        <a-assets>
+                    <a-asset-item id="frame-obj" src="models/frame/8x8x8.obj"></a-asset-item>
+                    <a-asset-item id="frame-mtl" src="models/frame/8x8x8.mtl"></a-asset-item>
+        </a-assets>
+
+        
+        <!-- create your content here. just a box for now -->
+
+        <a-entity geometry="primitive: sphere" material="side: double;" radius="200" shader-frog=src:url(shaders/goo.json) position="0 2.75974 -10"></a-entity>
+
+        <a-dodecahedron radius="5" scale=".5 .5 .5" shader-frog=src:url(shaders/cave.json) position="-5 2.75974 -10"></a-dodecahedron>
+        
+        <a-sphere radius="5" scale=".5 .5 .5" shader-frog=src:url(shaders/Heat_Shader.json) position="5 2.75974 -10"></a-dodecahedron>
+
+
+    </a-scene>
+</body>
+
+
+<html>

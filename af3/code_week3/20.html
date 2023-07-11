@@ -1,0 +1,123 @@
+<html>
+
+<head>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+    <script src="https://rawgit.com/protyze/aframe-curve-component/master/dist/aframe-curve-component.min.js"></script>
+    <script src="https://rawgit.com/protyze/aframe-alongpath-component/master/dist/aframe-alongpath-component.min.js"></script>
+    <script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+    <script>
+        // register your component here with a name
+        AFRAME.registerComponent('hello-world', {
+            schema: {
+                amount: {
+                    type: 'number',
+                    default: 10
+                },
+                color: {
+                    type: 'color',
+                    default: 'red'
+                },
+                duration: {
+                    type: 'number',
+                    default: 10000
+                },
+            },
+            //custom function
+            getRandomInt: function (min, max) {
+                min = Math.ceil(min);
+                max = Math.floor(max);
+                return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+            },
+             //custom function
+            getRandomColor: function () {
+                var letters = '0123456789ABCDEF'.split('');
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            },
+            init: function () {
+                //for loop of torus-knots
+                for (let i = 1; i < this.data.amount; i++) {
+                    var knot = document.createElement('a-torus-knot');
+                    knot.setAttribute('color', this.getRandomColor());
+                    knot.setAttribute('position', '0 -150 -40');
+                    knot.setAttribute('radius-tubular', i * 0.009);
+                    knot.setAttribute('scale', '2 2 2');
+                    knot.setAttribute('opacity', '1');
+                    knot.setAttribute('rotation', i + ' ' + i + ' ' + i);
+                    knot.setAttribute('radius', i * 10);
+                    knot.setAttribute('metalness', 1);
+    
+                    //append animation attributes
+                    knot.setAttribute('animation__rotate', {
+                        property: 'rotation',
+                        to: "'" + this.getRandomInt(1, 720) + " " + this.getRandomInt(1, 720) + " " + this.getRandomInt(1, 720) + "'",
+                        loop: 'true',
+                        easing: 'easeInSine',
+                        dur: this.data.duration
+                    });
+    
+                    knot.setAttribute('animation__color', {
+                        property: 'material.color',
+                        dir: 'alternate',
+                        easing: 'easeInOutElastic',
+                        to: '#FFF',
+                        loop: 'true',
+                        dur: this.data.duration
+                    });
+                    this.el.appendChild(knot);
+                }
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <a-scene>
+        <a-entity id="enviro" position="0 -.001 0" scale="15 15 15" environment="
+            preset: tron; 
+            groundYScale: 100; 
+            fog: 0; 
+            dressingAmount: 100; 
+            groundColor2: #dd00d1; 
+            groundColor: #dd0011; 
+            groundTexture: walkernoise;
+            ground: hills;
+            groundYScale: 30;
+            active: true; seed: 17; 
+            skyType: gradient; 
+            skyColor: #87faf4; 
+            horizonColor: #b100200;
+            flatShading: true; 
+            dressing: arches;
+            dressingColor: #4f30f7; 
+            dressingScale: 0; 
+            dressingAmount: 0;
+            dressingOnPlayArea: 1; 
+            gridColor: #239893">
+        </a-entity>
+        <a-assets>
+
+        </a-assets>
+
+        <a-curve id="track1">
+            <a-curve-point position="-734 150 801"></a-curve-point>
+            <a-curve-point position="-902 500 -892"></a-curve-point>
+            <a-curve-point position="841 150 -820"></a-curve-point>
+            <a-curve-point position="762 500 831"></a-curve-point>
+            <a-curve-point position="-734 150 801"></a-curve-point>
+        </a-curve>
+        <a-draw-curve curveref="#track1" material="shader: line;
+        color: red;"></a-draw-curve>
+
+        <!-- Set the camera to follow the curve -->
+        <a-entity alongpath="curve: #track1; loop: true; dur: 100000">
+                <a-entity hello-world="amount:40;duration:50000" position="-3 2 -120">
+            <a-camera></a-camera>
+        </a-entity>
+
+    </a-scene>
+</body>

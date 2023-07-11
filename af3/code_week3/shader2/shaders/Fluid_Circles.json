@@ -1,0 +1,81 @@
+{
+  "id": 266,
+  "name": "Fluid Circles",
+  "fragment": "// Original https://www.shadertoy.com/view/MljSzW - Imported with permission\n// Created by Stefan Draganov - vortex/2015\n// License Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.\n\nprecision highp float;\nprecision highp int;\n\nuniform vec2 resolution;\nuniform float time;\nuniform float speed;\nuniform float baseRadius;\nuniform float colorVariation;\nuniform float brightnessVariation;\nuniform vec3 backgroundColor;\nuniform float variation;\n\nvarying vec2 vUv;\n\nvec3 n(vec2 x, float t) {\n    vec3 v = floor(vec3(x, t));\n    vec3 u = vec3(mod(v.xy, variation), v.z);\n    vec3 c = fract( u.xyz * (\n        vec3(0.16462, 0.84787, 0.98273) +\n        u.xyz * vec3(0.24808, 0.75905, 0.13898) +\n        u.yzx * vec3(0.31517, 0.62703, 0.26063) +\n        u.zxy * vec3(0.47127, 0.58568, 0.37244)\n    ) + u.yzx * (\n        vec3(0.35425, 0.65187, 0.12423) +\n        u.yzx * vec3(0.95238, 0.93187, 0.95213) +\n        u.zxy * vec3(0.31526, 0.62512, 0.71837)\n    ) + u.zxy * (\n        vec3(0.95213, 0.13841, 0.16479) +\n        u.zxy * vec3(0.47626, 0.69257, 0.19738)\n    ) );\n    return v + c;\n}\n\n// Generate a predictably random color based on an input coord\nvec3 col(vec2 x, float t) {\n    return vec3(\n        0.5 + max( brightnessVariation * cos( x.y * x.x ), 0.0 )\n    ) + clamp(\n        colorVariation * cos(fract(vec3(x, t)) * 371.0241),\n        vec3( -0.4 ),\n        vec3( 1.0 )\n    );\n}\n\nvec2 idx(vec2 x) {\n    return floor(fract(x * 29.0) * 3.0) - vec2(1.0);\n}\n\nfloat circle(vec2 x, vec2 c, float r) {\n    return max(0.0, 1.0 - dot(x - c, x - c) / (r * r));\n}\n\nvoid main() {\n    \n    vec2 x = vUv * resolution;\n    float t = time * speed;\n    vec4 c = vec4(vec3(0.0), 0.1);\n    \n    for (int N = 0; N < 3; N++) {\n        for (int k = -1; k <= 0; k++) {\n            for (int i = -1; i <= 1; i++) {\n                for (int j = -1; j <= 1; j++) {\n                    vec2 X = x + vec2(j, i);\n                    float t = t + float(N) * 38.0;\n                    float T = t + float(k);\n                    vec3 a = n(X, T);\n                    vec2 o = idx(a.xy);\n                    vec3 b = n(X + o, T + 1.0);\n                    vec2 m = mix(a.xy, b.xy, (t - a.z) / (b.z - a.z));\n                    float r = baseRadius * sin(3.1415927 * clamp((t - a.z) / (b.z - a.z), 0.0, 1.0));\n                    if (length(a.xy - b.xy) / (b.z - a.z) > 2.0) {\n                        r = 0.0;\n                    }\n                    c += vec4(col(a.xy, a.z), 1.0) * circle(x, m, r);\n                }\n            }\n        }\n    }\n    \n    gl_FragColor = vec4(c.rgb / max(1e-5, c.w) + backgroundColor, 1.0);\n    \n}\n",
+  "vertex": "/**\n* Example Vertex Shader\n* Sets the position of the vertex by setting gl_Position\n*/\n\n// Set the precision for data types used in this shader\nprecision highp float;\nprecision highp int;\n\n// Default THREE.js uniforms available to both fragment and vertex shader\nuniform mat4 modelMatrix;\nuniform mat4 modelViewMatrix;\nuniform mat4 projectionMatrix;\nuniform mat4 viewMatrix;\nuniform mat3 normalMatrix;\n\n// Default uniforms provided by ShaderFrog.\nuniform vec3 cameraPosition;\nuniform float time;\n\n// Default attributes provided by THREE.js. Attributes are only available in the\n// vertex shader. You can pass them to the fragment shader using varyings\nattribute vec3 position;\nattribute vec3 normal;\nattribute vec2 uv;\nattribute vec2 uv2;\n\n// Examples of variables passed from vertex to fragment shader\nvarying vec3 vPosition;\nvarying vec3 vNormal;\nvarying vec2 vUv;\nvarying vec2 vUv2;\n\nvoid main() {\n\n    // To pass variables to the fragment shader, you assign them here in the\n    // main function. Traditionally you name the varying with vAttributeName\n    vNormal = normal;\n    vUv = uv;\n    vUv2 = uv2;\n    vPosition = position;\n\n    // This sets the position of the vertex in 3d space. The correct math is\n    // provided below to take into account camera and object data.\n    gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );\n\n}",
+  "uniforms": {
+    "cameraPosition": {
+      "name": "cameraPosition",
+      "type": "v3",
+      "glslType": "vec3",
+      "description": ""
+    },
+    "time": {
+      "name": "time",
+      "type": "f",
+      "glslType": "float",
+      "description": ""
+    },
+    "resolution": {
+      "name": "resolution",
+      "type": "v2",
+      "glslType": "vec2",
+      "value": {
+        "x": "10",
+        "y": "10"
+      },
+      "description": ""
+    },
+    "speed": {
+      "name": "speed",
+      "type": "f",
+      "glslType": "float",
+      "value": "0.1",
+      "description": ""
+    },
+    "baseRadius": {
+      "name": "baseRadius",
+      "type": "f",
+      "glslType": "float",
+      "value": "0.4",
+      "description": ""
+    },
+    "backgroundColor": {
+      "name": "backgroundColor",
+      "type": "c",
+      "glslType": "vec3",
+      "value": {
+        "r": 0,
+        "g": 0,
+        "b": "0.5"
+      },
+      "description": ""
+    },
+    "brightnessVariation": {
+      "name": "brightnessVariation",
+      "type": "f",
+      "glslType": "float",
+      "value": "0",
+      "description": ""
+    },
+    "colorVariation": {
+      "name": "colorVariation",
+      "type": "f",
+      "glslType": "float",
+      "value": "0.6",
+      "description": ""
+    },
+    "variation": {
+      "name": "variation",
+      "type": "f",
+      "glslType": "float",
+      "value": "8",
+      "description": ""
+    }
+  },
+  "url": "http://shaderfrog.com/app/view/266",
+  "user": {
+    "username": "andrewray",
+    "url": "http://shaderfrog.com/app/profile/andrewray"
+  }
+}

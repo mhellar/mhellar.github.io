@@ -1,0 +1,24 @@
+<head>
+  <title>My A-Frame Scene</title>
+  <script src="https://rawgit.com/aframevr/aframe/master/dist/aframe-master.min.js"></script>
+  <script src="https://rawgit.com/protyze/aframe-curve-component/master/dist/aframe-curve-component.min.js"></script>
+  <script
+    src="https://rawgit.com/protyze/aframe-alongpath-component/master/dist/aframe-alongpath-component.min.js"></script>
+  <script
+    src="https://unpkg.com/aframe-audioanalyser-component@5.4.0/dist/aframe-audioanalyser-component.min.js"></script>
+  <script src="js/audioanalyser-volume-scale.js"></script>
+  <script src="js/audioanalyser-beat-scale.js"></script>
+</head>
+
+<body>
+  <a-scene>
+    <a-assets>
+      <audio id="song" src="sound.mp3" autoplay loop></audio>
+    </a-assets>
+    <a-sky color="blue"></a-sky>
+    <a-dodecahedron radius="5" color="red" scale=".1 .1 .1" audioanalyser="src: #song"
+      audioanalyser-volume-scale="multiplier: .005" position="0 2 -5" side="double"
+      ></a-dodecahedron>
+
+  </a-scene>
+</body>
