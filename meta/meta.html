@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Basic Interactions - A-Frame</title>
+    <meta name="description" content="Interactions - A-Frame">
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@4.2.1/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-text-geometry-component@0.5.1/dist/aframe-text-geometry-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-text-geometry-component@0.4.0/dist/aframe-text-geometry-component.min.js"></script>
+
+
+    <!-- <script>
+        const pointsEl = document.querySelector('#points');
+        const numPoints = 16;
+        const radius = 5;
+        const gr = (Math.sqrt(radius) + 1) / 2 - 1; // golden ratio
+        const ga = 2 * Math.PI * gr; // golden angle
+    
+        // Create an array of texts
+        let texts = ['Exponential', 'Diminishing', 'Poingnant', 'Billowing', 'Dappled', 'Blue', 'Sentimental', 'Grateful', 'Leftover', 'Grisly', 'Softening', 'Marginal', 'Liquid', 'Earthy', 'Following', 'Resounding'];
+        let color = ['Red', 'Blue', 'Yellow', 'Green', 'Orange', 'Blue', 'Silver', 'Gold', 'Black', 'Gray', 'Brown', 'Magenta', 'Aquamarine', '#A04000 ', 'Purple', 'Pink']; 
+    
+    
+        // Create an array of points
+        let points = [];
+        for (let i = 0; i < numPoints; i++) {
+          // Calculate the latitude (angle from the z-axis) using the spherical coordinates formula
+          let lat = Math.acos(-1 + (2 * i + 1) / numPoints);
+          let lon = ga * i;
+    
+          let x = radius * Math.sin(lat) * Math.cos(lon);
+          let y = radius * Math.sin(lat) * Math.sin(lon);
+          let z = radius * Math.cos(lat);
+    
+          points.push({x, y, z, text: texts[i]});
+        }
+    
+        // Shuffle the points array
+        points.sort(() => Math.random() - 0.5);
+    
+        // Create text entities at each point
+        for (let point of points) {
+          const text = document.createElement('a-entity');
+          text.setAttribute('position', `${point.x} ${point.y} ${point.z}`);
+          text.setAttribute('text-geometry', `value: ${point.text}; color: red; font: dejavu; bevelEnabled: true; bevelSize: 0.02; bevelThickness: 0.02; curveSegments: 12; size: 0.5; height: 0.02;`);
+          pointsEl.appendChild(text);
+        }
+      </script>
+     -->
+    
+
+</head>
+
+<body>
+    <a-scene>
+
+        
+        <a-assets>
+            <img id="gndTexture" src="assets/img/grid.jpg">
+            <a-asset-item id="optimerBoldFont" src="https://rawgit.com/mrdoob/three.js/dev/examples/fonts/optimer_bold.typeface.json"></a-asset-item>
+         
+
+            <audio id="Exponential" src="Exponential.wav"></audio>
+            <audio id="Diminshing" src="Diminishing.wav"></audio>
+            <audio id="Poingnant" ssrc="Poingnant.wav"></audio>
+            <audio id="Billowing" src="Billowing.wav"></audio>
+            <audio id="Dappled" src="Dappled.wav"></audio>
+            <audio id="Blue" src="Blue.wav"></audio>
+            <audio id="Sentimental" src="Sentimental.wav"></audio>
+            <audio id="Grateful" src="Grateful.wav"></audio>
+            <audio id="Leftover" src="Leftover.wav"></audio>
+            <audio id="Grisly" src="Grisly.wav"></audio>
+            <audio id="Softening" src="Softening.wav"></audio>
+            <audio id="Marginal" src="Marginal.wav"></audio>
+            <audio id="Liquid" src="Liquid.wav"></audio>
+            <audio id="Earthy" src="Earthy.wav"></audio>
+            <audio id="Following" src="Following.wav"></audio>
+            <audio id="Resounding" src="Resounding.wav"></audio>
+
+
+        </a-assets>
+
+        <a-camera>
+
+            <a-cursor></a-cursor>
+        </a-camera>
+
+            
+        
+            
+
+<!-- 
+random distrubution on the sphere -->
+
+
+          
+  
+        <a-entity  
+             text-geometry= "value: Exponential"   
+             position="-4 0 2"  scale="0.5 0.5 0.5 " material="color: red" event-set__enter="_event: mouseenter; _target: #bg"
+            sound="src: #Exponential; on: mouseenter" 
+            animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+            animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;">
+        </a-entity>
+        
+        <a-entity  
+        text-geometry= "value: Diminishing"   
+        position="-2 2 4"  scale="0.5 0.5 0.5 " material="color: blue" event-set__enter="_event: mouseenter; _target: #bg"
+        sound="src: #Diminishing; on: mouseenter" 
+            animation__scaleup="property: scale; from:1 1 1; to: 0.5 0.5 0.5; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+            animation__scaleout="property: scale; from:0.5 0.5 0.5; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;">
+        </a-entity>
+
+        <a-entity  
+        text-geometry= "value: Poingnant"   
+        position="-2 0 2"  scale="0.5 0.5 0.5 "  material="color: yellow" event-set__enter="_event: mouseenter; _target: #bg"
+        sound="src: #Poingnat; on: mouseenter" 
+            animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+            animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;">
+        </a-sphere>
+
+        <a-entity  
+        text-geometry= "value: Billowing"   
+         position="-4 2 0" scale="0.5 0.5 0.5 "  material="color:green " event-set__enter="_event: mouseenter; _target: #bg"
+            sound="src: #Billowing; on: mouseenter"
+            animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+            animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;"
+            > 
+        </a-entity>
+       
+        <a-entity  
+        text-geometry= "value: Dappled"   
+         position="-2 2 4" scale="0.5 0.5 0.5 "  material="color:orange " event-set__enter="_event: mouseenter; _target: #bg"
+            sound="src: #Billowing; on: mouseenter"
+            animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+            animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;"
+            > 
+        </a-entity>
+
+
+        <a-entity  
+        text-geometry= "value: Blue"   
+         position="0 2 -2" scale="0.5 0.5 0.5 " material= "color:blue " event-set__enter="_event: mouseenter; _target: #bg"
+            sound="src: #Blue; on: mouseenter"
+            animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+            animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;"
+            > 
+        </a-entity>
+
+        <a-entity  
+        text-geometry= "value: Sentimental"   
+         position="0 2 0" scale="0.5 0.5 0.5 "  material="color:silver " event-set__enter="_event: mouseenter; _target: #bg"
+            sound="src: #Sentimental; on: mouseenter"
+            animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+            animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;"
+            > 
+        </a-entity>
+
+        <a-entity  
+        text-geometry= "value: Grateful"   
+         position="6 2 2" scale="0.5 0.5 0.5"  material="color: gold " event-set__enter="_event: mouseenter; _target: #bg"
+            sound="src: #Grateful; on: mouseenter"
+            animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+            animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;"
+            > 
+        </a-entity>
+
+
+        <a-entity  
+        text-geometry= "value: Leftover"   
+         position="0 4 -2" scale="0.5 0.5 0.5 " material="color:black " event-set__enter="_event: mouseenter; _target: #bg"
+            sound="src: #Leftover; on: mouseenter"
+            animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+            animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;"
+            > 
+        </a-entity>
+
+
+        <a-entity  
+        text-geometry= "value: Grisly"   
+         position="2 4 0" scale="0.5 0.5 0.5 " material="color: gray " event-set__enter="_event: mouseenter; _target: #bg"
+            sound="src: #Grisly; on: mouseenter"
+            animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+            animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;"
+            > 
+        </a-entity>
+
+        <a-entity  
+        text-geometry= "value: Softening"   
+         position="4 4 4" scale="0.5 0.5 0.5 " material="color: brown " event-set__enter="_event: mouseenter; _target: #bg"
+            sound="src: #Softening; on: mouseenter"
+            animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+            animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;"
+            > 
+        </a-entity>
+
+
+    
+        <a-entity  
+        text-geometry= "value: Marginal"   
+        position="6 4 0 " scale="0.5 0.5 0.5 " material = "color:magenta " event-set__enter="_event: mouseenter;_target: #bg" 
+        sound="src: #Marginal; on: mouseenter"
+        animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+        animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;"
+        > 
+         </a-entity>
+
+
+         <a-entity  
+         text-geometry= "value: Liquid"   
+         position="0 6 -2"  scale="0.5 0.5 0.5" material="color: aquamarine" event-set__enter="_event: mouseenter; _target: #bg"
+        sound="src: #Liquid; on: mouseenter" 
+        animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+        animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;">
+    </a-entity>
+
+    <a-entity  
+    text-geometry= "value: Earthy"   
+    position=" 2 6 0 " scale="0.5 0.5 0.5 " material="color: #A04000 " event-set__enter="_event:mouseenter; _target: #bg" 
+    sound="src: #Earthy; on: mouseenter"
+        animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+        animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;">
+    </a-entity>
+
+    <a-entity  
+    text-geometry= "value: Following"   
+    position="4 6 4 "  scale="0.5 0.5 0.5 " material="color:#845184e6 "  event-set__enter="_event:mouseenter; _target: #bg" 
+    sound="src: #Following; on: mouseenter"
+        animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+        animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;">
+    </a-entity>
+
+    <a-entity  
+    text-geometry= "value: Resounding"  
+    position="6 6 0 " scale="0.5 0.5 0.5 " material="color:pink " event-set__enter="_event: mouseenter; _target: #bg" 
+    sound="src: #Resounding; on: mouseenter"
+        animation__scaleup="property: scale; from:1 1 1; to: 2 2 2; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseenter;"
+        animation__scaleout="property: scale; from:2 2 2; to: 1 1 1; loop: false; dur: 1000; easing: easeInSine; startEvents: mouseleave;"
+        > 
+    </a-entity>  
+
+        <a-entity laser-controls="hand: left "></a-entity>
+        <a-entity laser-controls="hand: right "></a-entity>
+
+       
+
+        <!-- <a-plane src="#gndTexture " rotation="-90 0 0 " width="50 " height="50 "></a-plane> -->
+
+        <a-camera>
+            <a-cursor></a-cursor>
+        </a-camera>
+    </a-scene>
+</body>
+
+</html>
